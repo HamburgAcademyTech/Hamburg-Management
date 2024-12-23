@@ -69,7 +69,8 @@ fun TeachersViewModel(
     updateTeacher: (Teacher) -> Unit,
     deleteTeacher: (Teacher) -> Unit,
     students: List<Student>,
-    deleteStudent: (Student) -> Unit
+    deleteStudent: (Student) -> Unit,
+    isType: String
 ){
     var teacherAdding by remember { mutableStateOf(false) }
     var teacherDeleting by remember { mutableStateOf(false) }
@@ -113,9 +114,20 @@ fun TeachersViewModel(
                 repository = studentRepo,
                 teacherId = selectedTeacherId,
                 teacherName = selectedTeacherName,
-                teachers = teachers
+                teachers = teachers,
+                isType = isType
             )
         }else{
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Start
+            ) {
+                Text(
+                    text = "Giriş: $isType",
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 18.sp,
+                )
+            }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center

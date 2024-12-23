@@ -201,7 +201,8 @@ fun AddStudent(
                             Pair("november", nov),
                             Pair("december", dec)
                         ),
-                        isDeleted = false
+                        isDeleted = false,
+                        notes = ""
                     )
                     addStudent(student)
                 }){

@@ -11,18 +11,16 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -42,6 +40,7 @@ import az.hamburg.management.domain.Student
 import az.hamburg.management.domain.Teacher
 import az.hamburg.management.popup.StudentCopyDialog
 import az.hamburg.management.popup.StudentDeleteDialog
+import az.hamburg.management.popup.StudentNoteDialog
 import az.hamburg.management.popup.StudentUpdateDialog
 import az.hamburg.management.view.AddStudent
 import java.time.LocalDate
@@ -55,14 +54,17 @@ fun StudentsViewModel(
     deleteStudent: (Student) -> Unit,
     teacherId: String,
     teacherName: String,
-    teachers: List<Teacher>
+    teachers: List<Teacher>,
+    isType: String
 ){
     var studentDeleting = remember { mutableStateOf(false) }
-    val selectedStudentForDelete = remember { mutableStateOf(Student("","","","","","","","","", mapOf(Pair("","")), false)) }
+    val selectedStudentForDelete = remember { mutableStateOf(Student("","","","","","","","","", mapOf(Pair("","")), false, notes = "")) }
     var showPopup by remember { mutableStateOf(false) }
     var selectedStudentForUpdate by remember { mutableStateOf<Student?>(null) }
     var studentCopying = remember { mutableStateOf(false) }
     var selectedStudentForCopy by remember { mutableStateOf<Student?>(null) }
+    var studentNoting = remember { mutableStateOf(false) }
+    var selectedStudentForNote by remember { mutableStateOf<Student?>(null) }
     var isAdmin = remember { mutableStateOf(false) }
 
     Column(
@@ -163,6 +165,18 @@ fun StudentsViewModel(
                                 tint = MaterialTheme.colors.primaryVariant
                             )
                         }
+
+                        IconButton(
+                            onClick = {
+                                selectedStudentForNote = it
+                                studentNoting.value = true
+                            }){
+                            Icon(
+                                imageVector = Icons.Default.Email,
+                                contentDescription = "Note",
+                                tint = Color.Black
+                            )
+                        }
                     }
 
                     Divider(
@@ -193,7 +207,7 @@ fun StudentsViewModel(
 
             if (studentDeleting.value){
                 StudentDeleteDialog(name = selectedStudentForDelete.value.name, onDismiss = { studentDeleting.value = false }){
-                    if (isAdmin.value){
+                    if (isType=="admin"){
                         deleteStudent(selectedStudentForDelete.value)
                         studentDeleting.value = false
                     }else{
@@ -202,6 +216,15 @@ fun StudentsViewModel(
                         )
                         updateStudent(isDeleting)
                         studentDeleting.value = false
+                    }
+                }
+            }
+
+            if (studentNoting.value) {
+                selectedStudentForNote?.let {
+                    StudentNoteDialog(student = it, onDismiss = { studentNoting.value = false }) { notedStudent ->
+                        updateStudent(notedStudent)
+                        studentNoting.value = false
                     }
                 }
             }

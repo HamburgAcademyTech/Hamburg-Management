@@ -9,10 +9,13 @@ import az.hamburg.management.domain.Teacher
 import kotlinx.coroutines.launch
 
 @Composable
-fun StudentsView(repository: StudentRepository,
-                 teacherId: String,
-                 teacherName: String,
-                 teachers: List<Teacher>) {
+fun StudentsView(
+    repository: StudentRepository,
+    teacherId: String,
+    teacherName: String,
+    teachers: List<Teacher>,
+    isType: String
+) {
     val scope = rememberCoroutineScope()
     val students by repository.getStudents().collectAsState(emptyList())
     StudentsViewModel(
@@ -22,6 +25,7 @@ fun StudentsView(repository: StudentRepository,
         deleteStudent = { scope.launch { repository.deleteStudent(it) } },
         teacherId = teacherId,
         teacherName = teacherName,
-        teachers = teachers
+        teachers = teachers,
+        isType = isType
     )
 }

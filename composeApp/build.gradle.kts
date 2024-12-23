@@ -28,6 +28,7 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation("io.coil-kt.coil3:coil-compose:3.0.4")
             implementation("io.coil-kt.coil3:coil-network-okhttp:3.0.4")
+            implementation("com.russhwolf:multiplatform-settings:1.0.0")
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

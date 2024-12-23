@@ -14,5 +14,6 @@ data class Student(
     val day: String,
     val hour: String,
     val month: Map<String, String>,
-    val isDeleted: Boolean = false
+    val isDeleted: Boolean = false,
+    val notes: String = ""
 )

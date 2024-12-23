@@ -12,9 +12,11 @@ import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import az.hamburg.management.data.FirebaseCourseRepo
+import az.hamburg.management.data.FirebaseLoginRepo
 import az.hamburg.management.data.FirebaseStudentRepo
 import az.hamburg.management.data.FirebaseTeacherRepo
 import az.hamburg.management.presentation.CoursesView
+import az.hamburg.management.presentation.LoginView
 import az.hamburg.management.presentation.TeachersView
 import com.google.firebase.FirebasePlatform
 import dev.gitlive.firebase.Firebase
@@ -48,6 +50,7 @@ fun main() = application {
     val courseRepo = remember { FirebaseCourseRepo() }
     val teacherRepo = remember { FirebaseTeacherRepo() }
     val studentRepo = remember { FirebaseStudentRepo() }
+    val loginRepo = remember { FirebaseLoginRepo() }
     //val screenSize: Rectangle = GraphicsEnvironment.getLocalGraphicsEnvironment().defaultScreenDevice.defaultConfiguration.bounds
 
     Window(
@@ -60,6 +63,7 @@ fun main() = application {
     ) {
         //App()
         //CoursesView(repository = courseRepo)
-        TeachersView(repository = teacherRepo, repository2 = studentRepo)
+        //TeachersView(repository = teacherRepo, repository2 = studentRepo)
+        LoginView(repository = loginRepo)
     }
 }
