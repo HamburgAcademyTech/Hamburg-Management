@@ -10,7 +10,7 @@ plugins {
 
 kotlin {
     jvm("desktop")
-    
+
     sourceSets {
         val desktopMain by getting
         commonMain.dependencies {
@@ -37,15 +37,27 @@ kotlin {
     }
 }
 
-
 compose.desktop {
     application {
         mainClass = "az.hamburg.management.MainKt"
 
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "az.hamburg.management"
+            targetFormats(
+                //TargetFormat.Dmg,
+                TargetFormat.Deb,
+                TargetFormat.Exe,
+                TargetFormat.Msi
+            )
+            packageName = "Hamburg Management"
             packageVersion = "1.0.0"
+            jvmArgs("--add-opens", "java.base/java.lang=ALL-UNNAMED")
+            includeAllModules = true
+            macOS {
+                iconFile.set(project.file("src/desktopMain/resources/hamburg_logo_512.icns"))
+            }
+            windows {
+                iconFile.set(project.file("src/desktopMain/resources/hamburg_logo_512.ico"))
+            }
         }
     }
 }
