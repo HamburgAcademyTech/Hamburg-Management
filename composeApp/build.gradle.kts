@@ -44,9 +44,9 @@ compose.desktop {
         nativeDistributions {
             targetFormats(
                 //TargetFormat.Dmg,
-                TargetFormat.Deb,
+                //TargetFormat.Deb,
                 TargetFormat.Exe,
-                TargetFormat.Msi
+                //TargetFormat.Msi
             )
             packageName = "Hamburg Management"
             packageVersion = "1.0.0"
