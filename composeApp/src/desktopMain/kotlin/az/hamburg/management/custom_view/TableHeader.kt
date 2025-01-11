@@ -9,7 +9,9 @@ import androidx.compose.ui.unit.dp
 import az.hamburg.management.presentation.monthOrder
 
 @Composable
-fun TableHeader(){
+fun TableHeader(
+    myMonthOrder: List<String>
+){
     val tableLargeHeaders = listOf(
         "Ad", "Nömrə"
     )
@@ -26,12 +28,12 @@ fun TableHeader(){
         TableCellSmall("Sıra", isHeader = true)
 
         tableLargeHeaders.forEach {
-            TableCellLarge(it, isHeader = true)
+            TableCellLarge(it, isHeader = true, Modifier)
         }
         tableMediumHeaders.forEach {
             TableCellMedium(it, isHeader = true)
         }
-        monthOrder.forEach {
+        myMonthOrder.forEach {
             TableCellSmall(it.substring(0, 3), isHeader = true)
         }
     }

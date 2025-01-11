@@ -23,17 +23,17 @@ class FirebaseClassRepo : ClassRepository {
 
                 val students = studentsSnapshots.documents.map { studentDoc ->
                     StudentC(
-                        cost = studentDoc.get("cost") ?: "",
-                        name = studentDoc.get("name") ?: "",
-                        start_date = studentDoc.get("start_date"),
-                        month = studentDoc.get("month")
+                        cost = "",
+                        name = "",
+                        start_date = "",
+                        month = mapOf(Pair("", ""))
                     )
                 }
 
                 // Return a Class object with the full list of students
                 Class(
-                    course_id = classDoc.get("course_id") ?: "",
-                    teacher = classDoc.get("teacher") ?: "",
+                    course_id = "",
+                    teacher = "",
                     studentList = students // Add a new property 'studentList' for the full list
                 )
             }
