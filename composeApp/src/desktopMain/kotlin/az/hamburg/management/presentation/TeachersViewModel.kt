@@ -51,6 +51,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.legacy.widget.Space
+import az.hamburg.management.data.FirebaseStudentITRepo
 import az.hamburg.management.data.FirebaseStudentRepo
 import az.hamburg.management.domain.Student
 import az.hamburg.management.domain.Teacher
@@ -59,6 +60,7 @@ import az.hamburg.management.popup.TeacherDeleteDialog
 import az.hamburg.management.popup.TeacherUpdateDialog
 import hamburgmanagement.composeapp.generated.resources.Res
 import hamburgmanagement.composeapp.generated.resources.card_bg
+import hamburgmanagement.composeapp.generated.resources.card_bg_it
 import hamburgmanagement.composeapp.generated.resources.compose_multiplatform
 import org.jetbrains.compose.resources.painterResource
 
@@ -95,6 +97,7 @@ fun TeachersViewModel(
             .padding(20.dp)
     ) {
         val studentRepo = remember { FirebaseStudentRepo() }
+        val studentITRepo = remember { FirebaseStudentITRepo() }
         if (goStudents){
             Button(
                 modifier = Modifier
@@ -111,7 +114,7 @@ fun TeachersViewModel(
             }
 
             StudentsView(
-                repository = studentRepo,
+                repository = if (isType == "it") studentITRepo else studentRepo,
                 teacherId = selectedTeacherId,
                 teacherName = selectedTeacherName,
                 teachers = teachers,
@@ -228,7 +231,7 @@ fun TeachersViewModel(
                             .clip(RoundedCornerShape(12.dp))
                     ) {
                         Image(
-                            painter = painterResource(Res.drawable.card_bg),
+                            painter = painterResource(if (isType=="it") Res.drawable.card_bg_it else Res.drawable.card_bg),
                             contentDescription = null,
                             contentScale = ContentScale.FillBounds,
                             modifier = Modifier.fillMaxSize(),

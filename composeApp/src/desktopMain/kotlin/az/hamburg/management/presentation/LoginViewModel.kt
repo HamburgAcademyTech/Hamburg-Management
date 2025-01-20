@@ -1,9 +1,16 @@
 package az.hamburg.management.presentation
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -18,13 +25,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import az.hamburg.management.data.FirebaseStudentITRepo
 import az.hamburg.management.data.FirebaseStudentRepo
+import az.hamburg.management.data.FirebaseTeacherITRepo
 import az.hamburg.management.data.FirebaseTeacherRepo
 import az.hamburg.management.domain.Login
 import com.russhwolf.settings.*
+import hamburgmanagement.composeapp.generated.resources.Res
+import hamburgmanagement.composeapp.generated.resources.card_bg
+import hamburgmanagement.composeapp.generated.resources.card_bg_it
+import hamburgmanagement.composeapp.generated.resources.hamburg_logo
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun LoginViewModel(
@@ -39,10 +54,36 @@ fun LoginViewModel(
     if (!loggedIn){
         Column(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .background(Color(0xFF4B3621)),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+            Image(
+                painter = painterResource(Res.drawable.hamburg_logo),
+                contentDescription = null,
+                contentScale = ContentScale.FillBounds,
+                modifier = Modifier
+                    .width(100.dp)
+                    .height(128.dp)
+            )
+
+            Spacer(modifier = Modifier.size(50.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = "Hamburg Management",
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 24.sp,
+                    color = Color.White
+                )
+            }
+
+            Spacer(modifier = Modifier.size(20.dp))
+
             OutlinedTextField(
                 value = username,
                 onValueChange = { username = it },
@@ -103,7 +144,13 @@ fun LoginViewModel(
         }
     }else{
         val teacherRepo = remember { FirebaseTeacherRepo() }
+        val teacherITRepo = remember { FirebaseTeacherITRepo() }
         val studentRepo = remember { FirebaseStudentRepo() }
-        TeachersView(repository = teacherRepo, repository2 = studentRepo, isType = type)
+        val studentITRepo = remember { FirebaseStudentITRepo() }
+        if (type == "german"){
+            TeachersView(repository = teacherRepo, repository2 = studentRepo, isType = type)
+        }else if (type == "it"){
+            TeachersView(repository = teacherITRepo, repository2 = studentITRepo, isType = type)
+        }
     }
 }
