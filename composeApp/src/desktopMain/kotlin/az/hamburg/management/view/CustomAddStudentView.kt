@@ -24,7 +24,7 @@ import az.hamburg.management.custom_view.StudentFieldSmall
 import az.hamburg.management.domain.Student
 
 @Composable
-fun AddStudent(
+fun CustomAddStudent(
     teacherId: String,
     addStudent: (Student) -> Unit
 ){

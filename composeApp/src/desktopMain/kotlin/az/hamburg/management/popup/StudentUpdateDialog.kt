@@ -36,18 +36,18 @@ fun StudentUpdateDialog(
     var level by remember { mutableStateOf(student.level) }
     var day by remember { mutableStateOf(student.day) }
     var hour by remember { mutableStateOf(student.hour) }
-    var jan by remember { mutableStateOf(sortMonthData(student.month)[0].second) }
-    var feb by remember { mutableStateOf(sortMonthData(student.month)[1].second) }
-    var mar by remember { mutableStateOf(sortMonthData(student.month)[2].second) }
-    var apr by remember { mutableStateOf(sortMonthData(student.month)[3].second) }
-    var may by remember { mutableStateOf(sortMonthData(student.month)[4].second) }
-    var jun by remember { mutableStateOf(sortMonthData(student.month)[5].second) }
-    var jul by remember { mutableStateOf(sortMonthData(student.month)[6].second) }
-    var aug by remember { mutableStateOf(sortMonthData(student.month)[7].second) }
-    var sep by remember { mutableStateOf(sortMonthData(student.month)[8].second) }
-    var oct by remember { mutableStateOf(sortMonthData(student.month)[9].second) }
-    var nov by remember { mutableStateOf(sortMonthData(student.month)[10].second) }
-    var dec by remember { mutableStateOf(sortMonthData(student.month)[11].second) }
+    var jan by remember { mutableStateOf(sortMonthData(student.month25)[0].second) }
+    var feb by remember { mutableStateOf(sortMonthData(student.month25)[1].second) }
+    var mar by remember { mutableStateOf(sortMonthData(student.month25)[2].second) }
+    var apr by remember { mutableStateOf(sortMonthData(student.month25)[3].second) }
+    var may by remember { mutableStateOf(sortMonthData(student.month25)[4].second) }
+    var jun by remember { mutableStateOf(sortMonthData(student.month25)[5].second) }
+    var jul by remember { mutableStateOf(sortMonthData(student.month25)[6].second) }
+    var aug by remember { mutableStateOf(sortMonthData(student.month25)[7].second) }
+    var sep by remember { mutableStateOf(sortMonthData(student.month25)[8].second) }
+    var oct by remember { mutableStateOf(sortMonthData(student.month25)[9].second) }
+    var nov by remember { mutableStateOf(sortMonthData(student.month25)[10].second) }
+    var dec by remember { mutableStateOf(sortMonthData(student.month25)[11].second) }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -247,19 +247,19 @@ fun StudentUpdateDialog(
                         level = level,
                         day = day,
                         hour = hour,
-                        month = mapOf(
-                            Pair(sortMonthData(student.month)[0].first.lowercase(), jan),
-                            Pair(sortMonthData(student.month)[1].first.lowercase(), feb),
-                            Pair(sortMonthData(student.month)[2].first.lowercase(), mar),
-                            Pair(sortMonthData(student.month)[3].first.lowercase(), apr),
-                            Pair(sortMonthData(student.month)[4].first.lowercase(), may),
-                            Pair(sortMonthData(student.month)[5].first.lowercase(), jun),
-                            Pair(sortMonthData(student.month)[6].first.lowercase(), jul),
-                            Pair(sortMonthData(student.month)[7].first.lowercase(), aug),
-                            Pair(sortMonthData(student.month)[8].first.lowercase(), sep),
-                            Pair(sortMonthData(student.month)[9].first.lowercase(), oct),
-                            Pair(sortMonthData(student.month)[10].first.lowercase(), nov),
-                            Pair(sortMonthData(student.month)[11].first.lowercase(), dec)
+                        month25 = mapOf(
+                            Pair(sortMonthData(student.month25)[0].first.lowercase(), jan),
+                            Pair(sortMonthData(student.month25)[1].first.lowercase(), feb),
+                            Pair(sortMonthData(student.month25)[2].first.lowercase(), mar),
+                            Pair(sortMonthData(student.month25)[3].first.lowercase(), apr),
+                            Pair(sortMonthData(student.month25)[4].first.lowercase(), may),
+                            Pair(sortMonthData(student.month25)[5].first.lowercase(), jun),
+                            Pair(sortMonthData(student.month25)[6].first.lowercase(), jul),
+                            Pair(sortMonthData(student.month25)[7].first.lowercase(), aug),
+                            Pair(sortMonthData(student.month25)[8].first.lowercase(), sep),
+                            Pair(sortMonthData(student.month25)[9].first.lowercase(), oct),
+                            Pair(sortMonthData(student.month25)[10].first.lowercase(), nov),
+                            Pair(sortMonthData(student.month25)[11].first.lowercase(), dec)
                         )
                     )
                 )

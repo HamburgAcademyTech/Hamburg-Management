@@ -2,7 +2,6 @@ package az.hamburg.management.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,7 +23,6 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
@@ -38,11 +36,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import az.hamburg.management.custom_view.StudentFieldLarge
 import az.hamburg.management.custom_view.TableCellLarge
 import az.hamburg.management.custom_view.TableCellMedium
 import az.hamburg.management.custom_view.TableCellName
@@ -116,13 +112,13 @@ fun StudentsViewModel(
             Button(
                 onClick = {
                     students.filter { it.teacherId == teacherId }.forEach { student ->
-                        val trimDay = student.startDate.substring(0, 2)
+                        val trimDay = student.startDate.substring(3, 5)
                         val switchedDay = (trimDay.toInt() + daySwitch.toInt()).toString()
                         println("TrimDay: $trimDay")
                         println("SwitchedDay: $switchedDay")
-
+                        
                         val updatedStudent = student.copy(
-                            startDate = "$switchedDay${student.startDate.substring(2)}"
+                            startDate = "${student.startDate.substring(0, 3)}$switchedDay${student.startDate.substring(5)}"
                         )
                         updateStudent(updatedStudent)
                     }
@@ -141,7 +137,7 @@ fun StudentsViewModel(
         }
 
         students.filter { it.teacherId == teacherId }.forEach { it ->
-            val y = sortMonthData(it.month)
+            val y = sortMonthData(it.month25)
             y.forEach{ (month, value) ->
                 if (value.isNotEmpty()){
                     myMonthOrder.add(month)
@@ -202,7 +198,7 @@ fun StudentsViewModel(
                             println("$month: $value")
                         }
 
-                        val x = sortMonthData(it.month)
+                        val x = sortMonthData(it.month25)
                         x.forEach { (month, value) ->
                             if (myMonthOrder.distinct().sortedBy { getMonthIndex(it) }.contains(month)){
                                 TableCellSmall(value)
@@ -351,7 +347,7 @@ fun getMonthIndex(month: String): Int {
 }
 
 fun filterMonths(student: Student): Map<String, String> {
-    val filteredMonths = student.month.entries.dropWhile { it.value.isEmpty() }
+    val filteredMonths = student.month25.entries.dropWhile { it.value.isEmpty() }
     return filteredMonths.associate { it.key to it.value }
 }
 

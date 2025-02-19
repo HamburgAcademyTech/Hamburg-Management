@@ -1,15 +1,11 @@
 package az.hamburg.management.presentation
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -29,11 +25,8 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
-import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
@@ -44,13 +37,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.legacy.widget.Space
 import az.hamburg.management.data.FirebaseStudentITRepo
 import az.hamburg.management.data.FirebaseStudentRepo
 import az.hamburg.management.domain.Student
@@ -61,7 +52,6 @@ import az.hamburg.management.popup.TeacherUpdateDialog
 import hamburgmanagement.composeapp.generated.resources.Res
 import hamburgmanagement.composeapp.generated.resources.card_bg
 import hamburgmanagement.composeapp.generated.resources.card_bg_it
-import hamburgmanagement.composeapp.generated.resources.compose_multiplatform
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
@@ -400,7 +390,7 @@ fun calculateTotalCost(items: List<Student>, startMonth: String, endMonth: Strin
     return items.sumOf { item ->
         val monthlyCost = item.cost.toIntOrNull() ?: 0
         val validMonthsCount = selectedMonths.count { month ->
-            item.month[month]?.isNotEmpty() == true
+            item.month25[month]?.isNotEmpty() == true
         }
         monthlyCost * validMonthsCount
     }
