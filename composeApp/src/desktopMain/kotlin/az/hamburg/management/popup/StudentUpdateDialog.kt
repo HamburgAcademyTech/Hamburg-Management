@@ -12,6 +12,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -19,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import az.hamburg.management.domain.Student
 import az.hamburg.management.presentation.sortMonthData
@@ -29,6 +31,7 @@ fun StudentUpdateDialog(
     onDismiss: () -> Unit,
     onSave: (Student) -> Unit
 ) {
+    var updatingYear by remember { mutableStateOf(student.months.keys.first()) }
     var name by remember { mutableStateOf(student.name) }
     var number by remember { mutableStateOf(student.number) }
     var cost by remember { mutableStateOf(student.cost) }
@@ -36,24 +39,98 @@ fun StudentUpdateDialog(
     var level by remember { mutableStateOf(student.level) }
     var day by remember { mutableStateOf(student.day) }
     var hour by remember { mutableStateOf(student.hour) }
-    var jan by remember { mutableStateOf(sortMonthData(student.month25)[0].second) }
-    var feb by remember { mutableStateOf(sortMonthData(student.month25)[1].second) }
-    var mar by remember { mutableStateOf(sortMonthData(student.month25)[2].second) }
-    var apr by remember { mutableStateOf(sortMonthData(student.month25)[3].second) }
-    var may by remember { mutableStateOf(sortMonthData(student.month25)[4].second) }
-    var jun by remember { mutableStateOf(sortMonthData(student.month25)[5].second) }
-    var jul by remember { mutableStateOf(sortMonthData(student.month25)[6].second) }
-    var aug by remember { mutableStateOf(sortMonthData(student.month25)[7].second) }
-    var sep by remember { mutableStateOf(sortMonthData(student.month25)[8].second) }
-    var oct by remember { mutableStateOf(sortMonthData(student.month25)[9].second) }
-    var nov by remember { mutableStateOf(sortMonthData(student.month25)[10].second) }
-    var dec by remember { mutableStateOf(sortMonthData(student.month25)[11].second) }
+
+    var jan by remember { mutableStateOf(sortMonthData(student.months[updatingYear] ?: emptyMap())[0].second) }
+    var feb by remember { mutableStateOf(sortMonthData(student.months[updatingYear] ?: emptyMap())[1].second) }
+    var mar by remember { mutableStateOf(sortMonthData(student.months[updatingYear] ?: emptyMap())[2].second) }
+    var apr by remember { mutableStateOf(sortMonthData(student.months[updatingYear] ?: emptyMap())[3].second) }
+    var may by remember { mutableStateOf(sortMonthData(student.months[updatingYear] ?: emptyMap())[4].second) }
+    var jun by remember { mutableStateOf(sortMonthData(student.months[updatingYear] ?: emptyMap())[5].second) }
+    var jul by remember { mutableStateOf(sortMonthData(student.months[updatingYear] ?: emptyMap())[6].second) }
+    var aug by remember { mutableStateOf(sortMonthData(student.months[updatingYear] ?: emptyMap())[7].second) }
+    var sep by remember { mutableStateOf(sortMonthData(student.months[updatingYear] ?: emptyMap())[8].second) }
+    var oct by remember { mutableStateOf(sortMonthData(student.months[updatingYear] ?: emptyMap())[9].second) }
+    var nov by remember { mutableStateOf(sortMonthData(student.months[updatingYear] ?: emptyMap())[10].second) }
+    var dec by remember { mutableStateOf(sortMonthData(student.months[updatingYear] ?: emptyMap())[11].second) }
 
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text("Tələbə düzəliş") },
         text = {
             Column {
+                Row {
+                    TextButton(
+                        onClick = {
+                            updatingYear = "2024"
+                            jan = sortMonthData(student.months[updatingYear] ?: emptyMap())[0].second
+                            feb = sortMonthData(student.months[updatingYear] ?: emptyMap())[1].second
+                            mar = sortMonthData(student.months[updatingYear] ?: emptyMap())[2].second
+                            apr = sortMonthData(student.months[updatingYear] ?: emptyMap())[3].second
+                            may = sortMonthData(student.months[updatingYear] ?: emptyMap())[4].second
+                            jun = sortMonthData(student.months[updatingYear] ?: emptyMap())[5].second
+                            jul = sortMonthData(student.months[updatingYear] ?: emptyMap())[6].second
+                            aug = sortMonthData(student.months[updatingYear] ?: emptyMap())[7].second
+                            sep = sortMonthData(student.months[updatingYear] ?: emptyMap())[8].second
+                            oct = sortMonthData(student.months[updatingYear] ?: emptyMap())[9].second
+                            nov = sortMonthData(student.months[updatingYear] ?: emptyMap())[10].second
+                            dec = sortMonthData(student.months[updatingYear] ?: emptyMap())[11].second
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            contentColor = Color.White,
+                            backgroundColor = if (updatingYear == "2024") Color.DarkGray else Color.Gray
+                        )
+                    ){
+                        Text("2024")
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+                    TextButton(
+                        onClick = {
+                            updatingYear = "2025"
+                            jan = sortMonthData(student.months[updatingYear] ?: emptyMap())[0].second
+                            feb = sortMonthData(student.months[updatingYear] ?: emptyMap())[1].second
+                            mar = sortMonthData(student.months[updatingYear] ?: emptyMap())[2].second
+                            apr = sortMonthData(student.months[updatingYear] ?: emptyMap())[3].second
+                            may = sortMonthData(student.months[updatingYear] ?: emptyMap())[4].second
+                            jun = sortMonthData(student.months[updatingYear] ?: emptyMap())[5].second
+                            jul = sortMonthData(student.months[updatingYear] ?: emptyMap())[6].second
+                            aug = sortMonthData(student.months[updatingYear] ?: emptyMap())[7].second
+                            sep = sortMonthData(student.months[updatingYear] ?: emptyMap())[8].second
+                            oct = sortMonthData(student.months[updatingYear] ?: emptyMap())[9].second
+                            nov = sortMonthData(student.months[updatingYear] ?: emptyMap())[10].second
+                            dec = sortMonthData(student.months[updatingYear] ?: emptyMap())[11].second
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            contentColor = Color.White,
+                            backgroundColor = if (updatingYear == "2025") Color.DarkGray else Color.Gray
+                        )
+                    ){
+                        Text("2025")
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+                    TextButton(
+                        onClick = {
+                            updatingYear = "2026"
+                            jan = sortMonthData(student.months[updatingYear] ?: emptyMap())[0].second
+                            feb = sortMonthData(student.months[updatingYear] ?: emptyMap())[1].second
+                            mar = sortMonthData(student.months[updatingYear] ?: emptyMap())[2].second
+                            apr = sortMonthData(student.months[updatingYear] ?: emptyMap())[3].second
+                            may = sortMonthData(student.months[updatingYear] ?: emptyMap())[4].second
+                            jun = sortMonthData(student.months[updatingYear] ?: emptyMap())[5].second
+                            jul = sortMonthData(student.months[updatingYear] ?: emptyMap())[6].second
+                            aug = sortMonthData(student.months[updatingYear] ?: emptyMap())[7].second
+                            sep = sortMonthData(student.months[updatingYear] ?: emptyMap())[8].second
+                            oct = sortMonthData(student.months[updatingYear] ?: emptyMap())[9].second
+                            nov = sortMonthData(student.months[updatingYear] ?: emptyMap())[10].second
+                            dec = sortMonthData(student.months[updatingYear] ?: emptyMap())[11].second
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            contentColor = Color.White,
+                            backgroundColor = if (updatingYear == "2026") Color.DarkGray else Color.Gray
+                        )
+                    ){
+                        Text("2026")
+                    }
+                }
                 Row {
                     OutlinedTextField(
                         value = name,
@@ -138,6 +215,7 @@ fun StudentUpdateDialog(
                         value = jan,
                         onValueChange = { jan = it },
                         label = { Text("Yan") },
+                        textStyle = TextStyle(color = Color.Black),
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f)
@@ -146,6 +224,7 @@ fun StudentUpdateDialog(
                         value = feb,
                         onValueChange = { feb = it },
                         label = { Text("Fev") },
+                        textStyle = TextStyle(color = Color.Black),
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f)
@@ -154,6 +233,7 @@ fun StudentUpdateDialog(
                         value = mar,
                         onValueChange = { mar = it },
                         label = { Text("Mar") },
+                        textStyle = TextStyle(color = Color.Black),
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f)
@@ -162,6 +242,7 @@ fun StudentUpdateDialog(
                         value = apr,
                         onValueChange = { apr = it },
                         label = { Text("Apr") },
+                        textStyle = TextStyle(color = Color.Black),
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f)
@@ -170,6 +251,7 @@ fun StudentUpdateDialog(
                         value = may,
                         onValueChange = { may = it },
                         label = { Text("May") },
+                        textStyle = TextStyle(color = Color.Black),
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f)
@@ -178,6 +260,7 @@ fun StudentUpdateDialog(
                         value = jun,
                         onValueChange = { jun = it },
                         label = { Text("Iyn") },
+                        textStyle = TextStyle(color = Color.Black),
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f)
@@ -188,6 +271,7 @@ fun StudentUpdateDialog(
                         value = jul,
                         onValueChange = { jul = it },
                         label = { Text("Iyl") },
+                        textStyle = TextStyle(color = Color.Black),
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f)
@@ -196,6 +280,7 @@ fun StudentUpdateDialog(
                         value = aug,
                         onValueChange = { aug = it },
                         label = { Text("Avq") },
+                        textStyle = TextStyle(color = Color.Black),
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f)
@@ -204,6 +289,7 @@ fun StudentUpdateDialog(
                         value = sep,
                         onValueChange = { sep = it },
                         label = { Text("Sen") },
+                        textStyle = TextStyle(color = Color.Black),
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f)
@@ -212,6 +298,7 @@ fun StudentUpdateDialog(
                         value = oct,
                         onValueChange = { oct = it },
                         label = { Text("Okt") },
+                        textStyle = TextStyle(color = Color.Black),
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f)
@@ -220,6 +307,7 @@ fun StudentUpdateDialog(
                         value = nov,
                         onValueChange = { nov = it },
                         label = { Text("Noy") },
+                        textStyle = TextStyle(color = Color.Black),
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f)
@@ -228,6 +316,7 @@ fun StudentUpdateDialog(
                         value = dec,
                         onValueChange = { dec = it },
                         label = { Text("Dek") },
+                        textStyle = TextStyle(color = Color.Black),
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f)
@@ -247,20 +336,22 @@ fun StudentUpdateDialog(
                         level = level,
                         day = day,
                         hour = hour,
-                        month25 = mapOf(
-                            Pair(sortMonthData(student.month25)[0].first.lowercase(), jan),
-                            Pair(sortMonthData(student.month25)[1].first.lowercase(), feb),
-                            Pair(sortMonthData(student.month25)[2].first.lowercase(), mar),
-                            Pair(sortMonthData(student.month25)[3].first.lowercase(), apr),
-                            Pair(sortMonthData(student.month25)[4].first.lowercase(), may),
-                            Pair(sortMonthData(student.month25)[5].first.lowercase(), jun),
-                            Pair(sortMonthData(student.month25)[6].first.lowercase(), jul),
-                            Pair(sortMonthData(student.month25)[7].first.lowercase(), aug),
-                            Pair(sortMonthData(student.month25)[8].first.lowercase(), sep),
-                            Pair(sortMonthData(student.month25)[9].first.lowercase(), oct),
-                            Pair(sortMonthData(student.month25)[10].first.lowercase(), nov),
-                            Pair(sortMonthData(student.month25)[11].first.lowercase(), dec)
-                        )
+                        months = student.months.toMutableMap().apply {
+                            this[updatingYear] = mapOf(
+                                sortMonthData(student.months[updatingYear] ?: emptyMap())[0].first.lowercase() to jan,
+                                sortMonthData(student.months[updatingYear] ?: emptyMap())[1].first.lowercase() to feb,
+                                sortMonthData(student.months[updatingYear] ?: emptyMap())[2].first.lowercase() to mar,
+                                sortMonthData(student.months[updatingYear] ?: emptyMap())[3].first.lowercase() to apr,
+                                sortMonthData(student.months[updatingYear] ?: emptyMap())[4].first.lowercase() to may,
+                                sortMonthData(student.months[updatingYear] ?: emptyMap())[5].first.lowercase() to jun,
+                                sortMonthData(student.months[updatingYear] ?: emptyMap())[6].first.lowercase() to jul,
+                                sortMonthData(student.months[updatingYear] ?: emptyMap())[7].first.lowercase() to aug,
+                                sortMonthData(student.months[updatingYear] ?: emptyMap())[8].first.lowercase() to sep,
+                                sortMonthData(student.months[updatingYear] ?: emptyMap())[9].first.lowercase() to oct,
+                                sortMonthData(student.months[updatingYear] ?: emptyMap())[10].first.lowercase() to nov,
+                                sortMonthData(student.months[updatingYear] ?: emptyMap())[11].first.lowercase() to dec
+                            )
+                        }
                     )
                 )
             },

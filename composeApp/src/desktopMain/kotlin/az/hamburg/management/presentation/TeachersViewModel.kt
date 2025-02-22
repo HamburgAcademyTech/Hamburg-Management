@@ -236,6 +236,7 @@ fun TeachersViewModel(
                 }
             }
 
+            //REPORTING
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -248,6 +249,13 @@ fun TeachersViewModel(
                     ) {
                         val activeStudents = students.filter { !it.isDeleted }
 
+                        Text(
+                            text = "Müəllim sayı: ${teachers.count()}",
+                            color = Color.Black,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            modifier = Modifier.padding(4.dp)
+                        )
                         Text(
                             text = "Tələbə sayı: ${activeStudents.count()}",
                             color = Color.Black,
@@ -263,14 +271,76 @@ fun TeachersViewModel(
                             modifier = Modifier.padding(4.dp)
                         )
                         Text(
-                            text = "Büdcə: ${calculateTotalCost(activeStudents, startMonth, endMonth)}",
+                            text = "Büdcə: ${calculateCostNew(activeStudents)}",
                             color = Color.Black,
                             fontSize = 18.sp,
                             fontWeight = FontWeight.SemiBold,
                             modifier = Modifier.padding(4.dp)
                         )
+                    }
+                }
+                TextButton(onClick = {
+                    isCalculating = !isCalculating
+                }){
+                    Text(
+                        text = if (isCalculating) "Bağla" else "Hesabla",
+                        color = if (isCalculating) Color.Red else Color.Green,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+            }
+        }
+    }
+}
 
-                        Row {
+fun calculateTotalCost(items: List<Student>, startMonth: String, endMonth: String): Int {
+    val monthsOrder = listOf(
+        "january", "february", "march", "april", "may", "june",
+        "july", "august", "september", "october", "november", "december"
+    )
+
+    // Ensure valid range
+    val startIndex = monthsOrder.indexOf(startMonth)
+    val endIndex = monthsOrder.indexOf(endMonth)
+
+    if (startIndex == -1 || endIndex == -1 || startIndex > endIndex) {
+        throw IllegalArgumentException("Invalid month range: $startMonth to $endMonth")
+    }
+
+    // Select the months in the interval
+    val selectedMonths = monthsOrder.subList(startIndex, endIndex + 1)
+
+    return items.sumOf { item ->
+        val monthlyCost = item.cost.toIntOrNull() ?: 0
+        val validMonthsCount = selectedMonths.count { month ->
+            item.months[month]?.isNotEmpty() == true
+        }
+        monthlyCost * validMonthsCount
+    }
+}
+
+fun calculateCostNew(dataList: List<Student>) : Int{
+    var totalSum = 0
+
+    for (entry in dataList) {
+        val cost = entry.cost.toIntOrNull() ?: 0
+        val monthsData = entry.months as? Map<String, Map<String, String>> ?: emptyMap()
+
+        val count = monthsData.values
+            .flatMap { it.values }
+            .count { it.isNotEmpty() }
+
+        totalSum += cost * count
+    }
+
+    return totalSum
+}
+
+/*
+{calculateTotalCost(activeStudents, startMonth, endMonth)}
+
+Row {
                             TextButton(onClick = {
                                 expanded1 = true
                             }){
@@ -352,46 +422,4 @@ fun TeachersViewModel(
                                 }
                             }
                         }
-                    }
-                }
-
-                TextButton(onClick = {
-                    isCalculating = !isCalculating
-                }){
-                    Text(
-                        text = if (isCalculating) "Bağla" else "Hesabla",
-                        color = if (isCalculating) Color.Red else Color.Green,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                }
-            }
-        }
-    }
-}
-
-fun calculateTotalCost(items: List<Student>, startMonth: String, endMonth: String): Int {
-    val monthsOrder = listOf(
-        "january", "february", "march", "april", "may", "june",
-        "july", "august", "september", "october", "november", "december"
-    )
-
-    // Ensure valid range
-    val startIndex = monthsOrder.indexOf(startMonth)
-    val endIndex = monthsOrder.indexOf(endMonth)
-
-    if (startIndex == -1 || endIndex == -1 || startIndex > endIndex) {
-        throw IllegalArgumentException("Invalid month range: $startMonth to $endMonth")
-    }
-
-    // Select the months in the interval
-    val selectedMonths = monthsOrder.subList(startIndex, endIndex + 1)
-
-    return items.sumOf { item ->
-        val monthlyCost = item.cost.toIntOrNull() ?: 0
-        val validMonthsCount = selectedMonths.count { month ->
-            item.month25[month]?.isNotEmpty() == true
-        }
-        monthlyCost * validMonthsCount
-    }
-}
+ */

@@ -139,19 +139,21 @@ fun CustomAddStudent(
                     level = level,
                     day = day,
                     hour = hour,
-                    month25 = mapOf(
-                        Pair("january", jan),
-                        Pair("february", feb),
-                        Pair("march", mar),
-                        Pair("april", apr),
-                        Pair("may", may),
-                        Pair("june", jun),
-                        Pair("july", jul),
-                        Pair("august", aug),
-                        Pair("september", sep),
-                        Pair("october", oct),
-                        Pair("november", nov),
-                        Pair("december", dec)
+                    months = mapOf(
+                        "2024" to  mapOf(
+                            Pair("january", jan),
+                            Pair("february", feb),
+                            Pair("march", mar),
+                            Pair("april", apr),
+                            Pair("may", may),
+                            Pair("june", jun),
+                            Pair("july", jul),
+                            Pair("august", aug),
+                            Pair("september", sep),
+                            Pair("october", oct),
+                            Pair("november", nov),
+                            Pair("december", dec)
+                        )
                     ),
                     isDeleted = false,
                     notes = "",

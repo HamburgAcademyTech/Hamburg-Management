@@ -64,12 +64,17 @@ fun AddStudent(
         Triple("Dek", dec) { value: String -> dec = value }
     )
     val visibleFields = monthFields.subList((if (startDate.length<2) 1 else startDate.substring(0, 2).toInt()) - 1, (if (startDate.length<2) 1 else monthFields.size))
+    var selectedYear by remember { mutableStateOf("2024") }
 
     Row {
         Spacer(
             modifier = Modifier
                 .size(70.dp, 60.dp)
         )
+        YearDropdown(selectedYear) { newSelection ->
+            selectedYear = newSelection
+        }
+
         StudentFieldLarge(
             value = name,
             onValueChange = { name = it },
@@ -122,6 +127,7 @@ fun AddStudent(
             )
         }
 
+        val allYears = (2024..2026).map { it.toString() }
         Button(
             modifier = Modifier
                 .padding(10.dp),
@@ -129,6 +135,40 @@ fun AddStudent(
                 backgroundColor = Color(0xFF000000),
                 contentColor = Color.White),
             onClick = {
+                val months = allYears.associateWith { year ->
+                    if (year == selectedYear) {
+                        mapOf(
+                            "january" to jan,
+                            "february" to feb,
+                            "march" to mar,
+                            "april" to apr,
+                            "may" to may,
+                            "june" to jun,
+                            "july" to jul,
+                            "august" to aug,
+                            "september" to sep,
+                            "october" to oct,
+                            "november" to nov,
+                            "december" to dec
+                        )
+                    } else {
+                        mapOf(
+                            "january" to "",
+                            "february" to "",
+                            "march" to "",
+                            "april" to "",
+                            "may" to "",
+                            "june" to "",
+                            "july" to "",
+                            "august" to "",
+                            "september" to "",
+                            "october" to "",
+                            "november" to "",
+                            "december" to ""
+                        )
+                    }
+                }
+
                 val student = Student(
                     id = "",
                     teacherId = teacherId,
@@ -139,20 +179,7 @@ fun AddStudent(
                     level = level,
                     day = day,
                     hour = hour,
-                    month25 = mapOf(
-                        Pair("january", jan),
-                        Pair("february", feb),
-                        Pair("march", mar),
-                        Pair("april", apr),
-                        Pair("may", may),
-                        Pair("june", jun),
-                        Pair("july", jul),
-                        Pair("august", aug),
-                        Pair("september", sep),
-                        Pair("october", oct),
-                        Pair("november", nov),
-                        Pair("december", dec)
-                    ),
+                    months = months,
                     isDeleted = false,
                     notes = "",
                     bg = "",
