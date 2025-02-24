@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,7 +16,9 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.DropdownMenu
@@ -82,212 +85,216 @@ fun TeachersViewModel(
         "iyul", "avqust", "sentyabr", "oktyabr", "noyabr", "dekabr"
     )
 
-    Column(
-        modifier = Modifier
-            .padding(20.dp)
-    ) {
-        val studentRepo = remember { FirebaseStudentRepo() }
-        val studentITRepo = remember { FirebaseStudentITRepo() }
-        if (goStudents){
-            Button(
-                modifier = Modifier
-                .padding(top = 10.dp, start = 10.dp),
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color(0xFFFFFFFF),
-                    contentColor = Color.Black),
-                onClick = {
-                    goStudents = false
-            }){
-                Text(
-                    text = "< Back"
-                )
-            }
-
-            StudentsView(
-                repository = if (isType == "it") studentITRepo else studentRepo,
-                teacherId = selectedTeacherId,
-                teacherName = selectedTeacherName,
-                teachers = teachers,
-                isType = isType
-            )
-        }else{
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Start
-            ) {
-                Text(
-                    text = "Giriş: $isType",
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 18.sp,
-                )
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = "Müəllimlər",
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 24.sp,
-                )
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End
-            ) {
-                IconButton(
+    Column {
+        Column(
+            modifier = Modifier
+                .padding(20.dp)
+        ) {
+            val studentRepo = remember { FirebaseStudentRepo() }
+            val studentITRepo = remember { FirebaseStudentITRepo() }
+            if (goStudents){
+                Button(
+                    modifier = Modifier
+                        .padding(top = 10.dp, start = 10.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = Color(0xFFFFFFFF),
+                        contentColor = Color.Black),
                     onClick = {
-                        teacherDeleting = true
+                        goStudents = false
                     }){
-                    Icon(
-                        imageVector = Icons.Default.Delete,
-                        contentDescription = "Delete",
-                        tint = MaterialTheme.colors.error,
-                        modifier = Modifier.size(50.dp, 50.dp)
+                    Text(
+                        text = "< Back"
                     )
                 }
-                IconButton(
-                    onClick = {
-                        teacherUpdating = true
-                    }){
-                    Icon(
-                        imageVector = Icons.Default.Edit,
-                        contentDescription = "Edit",
-                        tint = MaterialTheme.colors.onBackground,
-                        modifier = Modifier.size(50.dp, 50.dp)
+
+                StudentsView(
+                    repository = if (isType == "it") studentITRepo else studentRepo,
+                    teacherId = selectedTeacherId,
+                    teacherName = selectedTeacherName,
+                    teachers = teachers,
+                    isType = isType
+                )
+            }else{
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    Text(
+                        text = "Giriş: $isType",
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 18.sp,
                     )
                 }
-                IconButton(
-                    onClick = {
-                        teacherAdding = true
-                    }){
-                    Icon(
-                        imageVector = Icons.Default.AddCircle,
-                        contentDescription = "Add",
-                        tint = MaterialTheme.colors.primaryVariant,
-                        modifier = Modifier.size(50.dp, 50.dp)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "Müəllimlər",
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 24.sp,
                     )
                 }
-            }
-
-            if (teacherAdding){
-                TeacherAddDialog(onDismiss = {
-                    teacherAdding = false
-                }){
-                    addTeacher(it)
-                    teacherAdding = false
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    IconButton(
+                        onClick = {
+                            teacherDeleting = true
+                        }){
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "Delete",
+                            tint = MaterialTheme.colors.error,
+                            modifier = Modifier.size(40.dp, 40.dp)
+                        )
+                    }
+                    IconButton(
+                        onClick = {
+                            teacherUpdating = true
+                        }){
+                        Icon(
+                            imageVector = Icons.Default.Edit,
+                            contentDescription = "Edit",
+                            tint = MaterialTheme.colors.onBackground,
+                            modifier = Modifier.size(40.dp, 40.dp)
+                        )
+                    }
+                    IconButton(
+                        onClick = {
+                            teacherAdding = true
+                        }){
+                        Icon(
+                            imageVector = Icons.Default.AddCircle,
+                            contentDescription = "Add",
+                            tint = MaterialTheme.colors.primaryVariant,
+                            modifier = Modifier.size(40.dp, 40.dp)
+                        )
+                    }
                 }
-            }
 
-            if (teacherDeleting){
-                TeacherDeleteDialog(teachers = teachers, onDismiss = {
-                    teacherDeleting = false
-                }){
-                    deleteTeacher(it)
-                    students.forEach{ st ->
-                        if (st.teacherId == it.id){
-                            deleteStudent(st)
+                if (teacherAdding){
+                    TeacherAddDialog(onDismiss = {
+                        teacherAdding = false
+                    }){
+                        addTeacher(it)
+                        teacherAdding = false
+                    }
+                }
+
+                if (teacherDeleting){
+                    TeacherDeleteDialog(teachers = teachers, onDismiss = {
+                        teacherDeleting = false
+                    }){
+                        deleteTeacher(it)
+                        students.forEach{ st ->
+                            if (st.teacherId == it.id){
+                                deleteStudent(st)
+                            }
+                        }
+                        teacherDeleting = false
+                    }
+                }
+
+                if (teacherUpdating){
+                    TeacherUpdateDialog(teachers = teachers, onDismiss = {
+                        teacherUpdating = false
+                    }){
+                        updateTeacher(it)
+                        teacherUpdating = false
+                    }
+                }
+
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(5)
+                ) {
+                    items(teachers){
+                        Box(
+                            modifier = Modifier
+                                .clickable {
+                                    goStudents  = true
+                                    selectedTeacherId = it.id
+                                    selectedTeacherName = it.name
+                                }
+                                .fillMaxWidth()
+                                .weight(1f)
+                                .height(100.dp)
+                                .wrapContentSize(align = Alignment.Center)
+                                .padding(5.dp)
+                                .clip(RoundedCornerShape(12.dp))
+                        ) {
+                            Image(
+                                painter = painterResource(if (isType.contains("it")) Res.drawable.card_bg_it else Res.drawable.card_bg),
+                                contentDescription = null,
+                                contentScale = ContentScale.FillBounds,
+                                modifier = Modifier.fillMaxSize(),
+                            )
+
+                            Text(
+                                text = it.name,
+                                color = Color.White,
+                                modifier = Modifier
+                                    .align(Alignment.Center)
+                                    .padding(5.dp)
+                            )
                         }
                     }
-                    teacherDeleting = false
                 }
-            }
 
-            if (teacherUpdating){
-                TeacherUpdateDialog(teachers = teachers, onDismiss = {
-                    teacherUpdating = false
-                }){
-                    updateTeacher(it)
-                    teacherUpdating = false
-                }
-            }
+                //REPORTING
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    if (isCalculating){
+                        Column(
+                            modifier = Modifier
+                                .padding(horizontal = 20.dp)
+                        ) {
+                            val activeStudents = students.filter { !it.isDeleted }
 
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(3)
-            ) {
-                items(teachers){
-                    Box(
-                        modifier = Modifier
-                            .clickable {
-                                goStudents  = true
-                                selectedTeacherId = it.id
-                                selectedTeacherName = it.name
-                            }
-                            .fillMaxWidth()
-                            .weight(1f)
-                            .height(150.dp)
-                            .wrapContentSize(align = Alignment.Center)
-                            .padding(20.dp)
-                            .clip(RoundedCornerShape(12.dp))
-                    ) {
-                        Image(
-                            painter = painterResource(if (isType.contains("it")) Res.drawable.card_bg_it else Res.drawable.card_bg),
-                            contentDescription = null,
-                            contentScale = ContentScale.FillBounds,
-                            modifier = Modifier.fillMaxSize(),
-                        )
-
+                            Text(
+                                text = "Müəllim sayı: ${teachers.count()}",
+                                color = Color.Black,
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                modifier = Modifier.padding(4.dp)
+                            )
+                            Text(
+                                text = "Tələbə sayı: ${activeStudents.count()}",
+                                color = Color.Black,
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                modifier = Modifier.padding(4.dp)
+                            )
+                            Text(
+                                text = "Aylıq ödəniş: ${activeStudents.sumOf { it.cost.toIntOrNull() ?: 0 }}",
+                                color = Color.Black,
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                modifier = Modifier.padding(4.dp)
+                            )
+                            Text(
+                                text = "Büdcə: ${calculateCostNew(activeStudents)}",
+                                color = Color.Black,
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                modifier = Modifier.padding(4.dp)
+                            )
+                        }
+                    }
+                    TextButton(onClick = {
+                        isCalculating = !isCalculating
+                    }){
                         Text(
-                            text = it.name,
-                            color = Color.White,
-                            modifier = Modifier.align(Alignment.Center)
+                            text = if (isCalculating) "Bağla" else "Hesabla",
+                            color = if (isCalculating) Color.Red else Color.Green,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.SemiBold
                         )
                     }
-                }
-            }
-
-            //REPORTING
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.End
-            ) {
-                if (isCalculating){
-                    Column(
-                        modifier = Modifier
-                            .padding(horizontal = 20.dp)
-                    ) {
-                        val activeStudents = students.filter { !it.isDeleted }
-
-                        Text(
-                            text = "Müəllim sayı: ${teachers.count()}",
-                            color = Color.Black,
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            modifier = Modifier.padding(4.dp)
-                        )
-                        Text(
-                            text = "Tələbə sayı: ${activeStudents.count()}",
-                            color = Color.Black,
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            modifier = Modifier.padding(4.dp)
-                        )
-                        Text(
-                            text = "Aylıq ödəniş: ${activeStudents.sumOf { it.cost.toIntOrNull() ?: 0 }}",
-                            color = Color.Black,
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            modifier = Modifier.padding(4.dp)
-                        )
-                        Text(
-                            text = "Büdcə: ${calculateCostNew(activeStudents)}",
-                            color = Color.Black,
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            modifier = Modifier.padding(4.dp)
-                        )
-                    }
-                }
-                TextButton(onClick = {
-                    isCalculating = !isCalculating
-                }){
-                    Text(
-                        text = if (isCalculating) "Bağla" else "Hesabla",
-                        color = if (isCalculating) Color.Red else Color.Green,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
                 }
             }
         }

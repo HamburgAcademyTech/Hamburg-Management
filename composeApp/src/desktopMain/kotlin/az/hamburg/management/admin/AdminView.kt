@@ -64,7 +64,7 @@ fun AdminView(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 50.dp),
+                .padding(top = 20.dp),
             horizontalArrangement = Arrangement.Center
         ) {
             Button(
