@@ -67,10 +67,8 @@ fun AddStudent(
     var selectedYear by remember { mutableStateOf("2024") }
 
     Row {
-        Spacer(
-            modifier = Modifier
-                .size(70.dp, 60.dp)
-        )
+        //Spacer(modifier = Modifier.size(70.dp, 60.dp))
+
         YearDropdown(selectedYear) { newSelection ->
             selectedYear = newSelection
         }

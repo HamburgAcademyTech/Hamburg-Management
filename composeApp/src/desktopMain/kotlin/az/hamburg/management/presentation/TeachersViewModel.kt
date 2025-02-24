@@ -221,7 +221,7 @@ fun TeachersViewModel(
                             .clip(RoundedCornerShape(12.dp))
                     ) {
                         Image(
-                            painter = painterResource(if (isType=="it") Res.drawable.card_bg_it else Res.drawable.card_bg),
+                            painter = painterResource(if (isType.contains("it")) Res.drawable.card_bg_it else Res.drawable.card_bg),
                             contentDescription = null,
                             contentScale = ContentScale.FillBounds,
                             modifier = Modifier.fillMaxSize(),

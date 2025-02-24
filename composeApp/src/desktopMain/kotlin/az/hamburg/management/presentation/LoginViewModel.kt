@@ -29,6 +29,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import az.hamburg.management.admin.AdminView
 import az.hamburg.management.data.FirebaseStudentITRepo
 import az.hamburg.management.data.FirebaseStudentRepo
 import az.hamburg.management.data.FirebaseTeacherITRepo
@@ -151,6 +152,8 @@ fun LoginViewModel(
             TeachersView(repository = teacherRepo, repository2 = studentRepo, isType = type)
         }else if (type == "it"){
             TeachersView(repository = teacherITRepo, repository2 = studentITRepo, isType = type)
+        }else if (type == "admin"){
+            AdminView(repository = teacherRepo, repository2 = studentRepo, repositoryIt = teacherITRepo, repository2It = studentITRepo, isType = type)
         }
     }
 }

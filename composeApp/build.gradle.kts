@@ -14,6 +14,8 @@ kotlin {
     sourceSets {
         val desktopMain by getting
         commonMain.dependencies {
+            implementation("org.jetbrains.lets-plot:lets-plot-kotlin-jvm:4.3.0") // For Charts KMP
+            implementation("org.jetbrains.lets-plot:lets-plot-batik:4.3.0") // Required for rendering
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)

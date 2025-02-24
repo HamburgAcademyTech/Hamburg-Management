@@ -13,7 +13,6 @@ data class Student(
     val level: String,
     val day: String,
     val hour: String,
-    //val month25: Map<String, String>,
     val months: Map<String, Map<String, String>>, // Dynamic year-month mapping
     val isDeleted: Boolean = false,
     val notes: String = "",
@@ -23,4 +22,5 @@ data class Student(
 
 class currentYear(
     val month: Map<String, String>,
+    //val month25: Map<String, String>,
 )
